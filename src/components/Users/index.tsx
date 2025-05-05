@@ -15,7 +15,7 @@ const Users = () => {
 
     useEffect(()=>{
         axiosInstance
-      .get<ApiResponse>("/users")
+      .get<ApiResponse>("/api/users")
       .then((response) => {
         setUsers(response.data);
         setLoading(false);
