@@ -1,8 +1,11 @@
 import { defineConfig } from '@rspack/cli';
 import { rspack } from '@rspack/core';
 import ReactRefreshRspackPlugin from '@rspack/plugin-react-refresh';
+import Dotenv from 'dotenv-webpack';
+import path from 'path';
 
 const isDev = process.env.NODE_ENV === 'development';
+
 
 // Target browsers, see: https://github.com/browserslist/browserslist
 const targets = ['chrome >= 87', 'edge >= 88', 'firefox >= 78', 'safari >= 14'];
@@ -15,12 +18,11 @@ export default defineConfig({
 	devServer: {
 		proxy: [
 			{
-				context: [ '/api'],
+				context: [ '/users'],
 				target: 'https://fastapi-example-kxp8.onrender.com',
 				secure: false,
 				changeOrigin: true,
 				cookieDomainRewrite: 'localhost',
-				pathRewrite: { "^/api": "" }
 			},
 		],
 	},
@@ -59,12 +61,16 @@ export default defineConfig({
       },
     ],
   },
-  plugins: [
-    new rspack.HtmlRspackPlugin({
-      template: './src/index.html',
-    }),
-    isDev ? new ReactRefreshRspackPlugin() : null,
-  ].filter(Boolean),
+	plugins: [
+		new rspack.HtmlRspackPlugin({
+			template: './src/index.html',
+		}),
+		isDev ? new ReactRefreshRspackPlugin() : null,
+		new Dotenv({
+			path: process.env.NODE_ENV === 'production' ? './.env.production' : './.env',
+			systemvars: true,
+		}),
+	].filter(Boolean),
   optimization: {
     minimizer: [
       new rspack.SwcJsMinimizerRspackPlugin(),

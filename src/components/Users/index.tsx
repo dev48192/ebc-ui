@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from  'react';
-import axios from 'axios';
+import axiosInstance from '../../common/axiosxhr';
 import Styles from  './Users.module.scss';
 
 interface User {
@@ -14,8 +14,8 @@ const Users = () => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(()=>{
-        axios
-      .get<ApiResponse>("/api/users")
+        axiosInstance
+      .get<ApiResponse>("/users")
       .then((response) => {
         setUsers(response.data);
         setLoading(false);
