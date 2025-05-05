@@ -12,6 +12,18 @@ export default defineConfig({
   entry: {
     main: './src/index.tsx',
   },
+	devServer: {
+		proxy: [
+			{
+				context: [ '/api'],
+				target: 'https://fastapi-example-kxp8.onrender.com',
+				secure: false,
+				changeOrigin: true,
+				cookieDomainRewrite: 'localhost',
+				pathRewrite: { "^/api": "" }
+			},
+		],
+	},
   resolve: {
     extensions: ['...', '.ts', '.tsx', '.jsx'],
   },

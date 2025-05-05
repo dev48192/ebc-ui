@@ -1,16 +1,15 @@
 {
   "name": "ebc-ui",
   "version": "0.1.0",
-  "homepage": "https://dev48192.github.io/ebc-ui",
   "private": true,
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "scripts": {
+    "start": "rspack dev",
     "build": "rspack build",
     "check": "biome check --write",
-    "dev": "rspack dev",
     "format": "biome format --write",
     "preview": "rspack preview"
   },
@@ -21,6 +20,7 @@
     "@rspack/plugin-react-refresh": "1.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "axios": "^1.9.0",
     "css-loader": "^6.7.1",
     "react-refresh": "^0.17.0",
     "sass": "^1.55.0",
