@@ -1,14 +1,10 @@
 import React, {useEffect, useState} from  'react';
 import axiosInstance from '../../common/axiosxhr';
 import Styles from  './Users.module.scss';
+import { ApiResponse } from './types';
 
-interface User {
-    id: string;
-    name: string;
-}
-type ApiResponse = User[];
 
-const Users = () => {
+const Users: React.FC = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
