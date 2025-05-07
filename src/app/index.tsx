@@ -18,8 +18,9 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import CardContainer from "../components/CardContainer";
 import AppBar from "../components/AppBar";
-import { ViewSidebar } from "@mui/icons-material";
 import SideBar from "../components/SideBar";
+import PhoneAuthentication from "../components/PhoneAuthentication";
+import { auth, onAuthStateChanged, signOut } from "../firebase";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -33,6 +34,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function App() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [user, setUser] = React.useState(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -41,6 +43,25 @@ export default function App() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+
+  React.useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      alert("Logged out successfully");
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+  };
+
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -88,11 +109,11 @@ export default function App() {
                   },
                   open
                     ? {
-                        justifyContent: "initial",
-                      }
+                      justifyContent: "initial",
+                    }
                     : {
-                        justifyContent: "center",
-                      },
+                      justifyContent: "center",
+                    },
                 ]}
               >
                 <ListItemIcon
@@ -103,11 +124,11 @@ export default function App() {
                     },
                     open
                       ? {
-                          mr: 3,
-                        }
+                        mr: 3,
+                      }
                       : {
-                          mr: "auto",
-                        },
+                        mr: "auto",
+                      },
                   ]}
                 >
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -117,11 +138,11 @@ export default function App() {
                   sx={[
                     open
                       ? {
-                          opacity: 1,
-                        }
+                        opacity: 1,
+                      }
                       : {
-                          opacity: 0,
-                        },
+                        opacity: 0,
+                      },
                   ]}
                 />
               </ListItemButton>
@@ -140,11 +161,11 @@ export default function App() {
                   },
                   open
                     ? {
-                        justifyContent: "initial",
-                      }
+                      justifyContent: "initial",
+                    }
                     : {
-                        justifyContent: "center",
-                      },
+                      justifyContent: "center",
+                    },
                 ]}
               >
                 <ListItemIcon
@@ -155,11 +176,11 @@ export default function App() {
                     },
                     open
                       ? {
-                          mr: 3,
-                        }
+                        mr: 3,
+                      }
                       : {
-                          mr: "auto",
-                        },
+                        mr: "auto",
+                      },
                   ]}
                 >
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -169,11 +190,11 @@ export default function App() {
                   sx={[
                     open
                       ? {
-                          opacity: 1,
-                        }
+                        opacity: 1,
+                      }
                       : {
-                          opacity: 0,
-                        },
+                        opacity: 0,
+                      },
                   ]}
                 />
               </ListItemButton>
@@ -184,6 +205,16 @@ export default function App() {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <CardContainer />
+        <div>
+          {user ? (
+            <div>
+              <h3>Welcome, {user.phoneNumber}</h3>
+              <button onClick={handleLogout}>Logout</button>
+            </div>
+          ) : (
+            <PhoneAuthentication />
+          )}
+        </div>
       </Box>
     </Box>
   );
