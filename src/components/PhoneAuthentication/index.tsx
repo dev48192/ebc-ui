@@ -4,6 +4,7 @@ import { auth, RecaptchaVerifier } from "../../firebase";
 import {
   signInWithPhoneNumber
 } from "firebase/auth";
+import axiosInstance from "../../common/axiosxhr";
 
 const PhoneAuthentication = () => {
   const [phone, setPhone] = useState("");
@@ -37,6 +38,8 @@ const PhoneAuthentication = () => {
     try {
       const result = await confirmationResult.confirm(otp);
       const user = result.user;
+      const idToken = await result.user.getIdToken();
+      await axiosInstance.post('/api/auth/login', { id_token: idToken }, { withCredentials: true });
       alert("Phone verified successfully!");
       console.log("User:", user);
     } catch (error) {

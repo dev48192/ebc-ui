@@ -21,6 +21,7 @@ import AppBar from "../components/AppBar";
 import SideBar from "../components/SideBar";
 import PhoneAuthentication from "../components/PhoneAuthentication";
 import { auth, onAuthStateChanged, signOut } from "../firebase";
+import axiosInstance from "../common/axiosxhr";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -46,8 +47,21 @@ export default function App() {
 
 
   React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        try {
+          const res = await axiosInstance.post("/api/auth/profile", {
+            withCredentials: true, // Sends the cookie
+          });
+          setUser(res.data); // { uid, phone }
+        } catch (err) {
+          console.error("Session invalid or expired", err);
+          setUser(null);
+          await signOut(auth); // Sign out Firebase to sync
+        }
+      } else {
+        setUser(null);
+      }
     });
 
     return () => unsubscribe();
@@ -55,7 +69,9 @@ export default function App() {
 
   const handleLogout = async () => {
     try {
+      await axiosInstance.post("/api/auth/logout", {}, { withCredentials: true });
       await signOut(auth);
+      setUser(null);
       alert("Logged out successfully");
     } catch (error) {
       console.error("Logout Error:", error);
@@ -208,7 +224,7 @@ export default function App() {
         <div>
           {user ? (
             <div>
-              <h3>Welcome, {user.phoneNumber}</h3>
+              <h3>Welcome, {user.phone}</h3>
               <button onClick={handleLogout}>Logout</button>
             </div>
           ) : (
