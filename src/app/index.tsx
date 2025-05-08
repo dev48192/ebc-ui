@@ -45,26 +45,22 @@ export default function App() {
     setOpen(false);
   };
 
-
-  React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        try {
-          const res = await axiosInstance.post("/api/auth/profile", {
-            withCredentials: true, // Sends the cookie
-          });
-          setUser(res.data); // { uid, phone }
-        } catch (err) {
-          console.error("Session invalid or expired", err);
-          setUser(null);
-          await signOut(auth); // Sign out Firebase to sync
-        }
+  const fetchUser = async () => {
+    try {
+      const res = await axiosInstance.get("/api/auth/profile", { withCredentials:  true });
+      if(res.data) {
+        setUser(res.data);
       } else {
         setUser(null);
       }
-    });
+    } catch (error) {
+      console.log("Error in fetch user---->", error);
+      setUser(null);
+    }
+  }
 
-    return () => unsubscribe();
+  React.useEffect(() => {
+    fetchUser();
   }, []);
 
   const handleLogout = async () => {
