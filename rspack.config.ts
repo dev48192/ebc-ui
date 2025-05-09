@@ -18,7 +18,7 @@ export default defineConfig({
     historyApiFallback: true,
     proxy: [
       {
-        context: ['/users'],
+        context: ['/api'],
         target: 'https://fastapi-example-kxp8.onrender.com',
         secure: false,
         changeOrigin: true,

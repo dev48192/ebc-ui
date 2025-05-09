@@ -24,7 +24,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
 }) => {
   return (
     <CardActionArea sx={{ height: '100%' }} onClick={onClick}>
-      <Card sx={{ height: '100%'}}>
+      <Card sx={{ height: '100%' }}>
         <CardContent>
           <Box
             sx={{

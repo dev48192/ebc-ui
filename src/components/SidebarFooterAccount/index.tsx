@@ -14,6 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
+import { useSession } from '../../app/SessionContext';
 
 function AccountSidebarPreview(props: AccountPreviewProps & { mini: boolean }) {
   const { handleClick, open, mini } = props;
@@ -36,14 +37,10 @@ const createPreviewComponent = (mini: boolean) => {
   return PreviewComponent;
 };
 
-const account = {
-  id: 1,
-  name: 'Bharat Kashyap',
-  email: 'bharatkashyap@outlook.com',
-  image: 'https://avatars.githubusercontent.com/u/19550456',
-};
-
 function SidebarFooterAccountPopover() {
+  const {
+    session: { user: account },
+  } = useSession();
   return (
     <Stack direction="column">
       <Typography variant="body2" mx={2} mt={1}>

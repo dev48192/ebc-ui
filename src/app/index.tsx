@@ -8,6 +8,9 @@ import { Outlet } from 'react-router';
 import type { Navigation, Session } from '@toolpad/core/AppProvider';
 import { SessionContext } from './SessionContext';
 import { createTheme } from '@mui/material/styles';
+import PhoneAuthModal from '../components/PhoneAuthModal';
+import axiosInstance from '../common/axiosxhr';
+import { auth, signOut } from '../firebase';
 
 const NAVIGATION: Navigation = [
   {
@@ -48,20 +51,61 @@ const demoSession = {
 
 export default function App() {
   const [session, setSession] = React.useState<Session | null>(null);
+  const [isPhoneAuthOpen, setPhoneAuthOpen] = React.useState(false);
 
   const sessionContextValue = React.useMemo(
     () => ({ session, setSession }),
     [session, setSession],
   );
 
+  const fetchUser = async () => {
+    try {
+      const res = await axiosInstance.get('/api/auth/profile', {
+        withCredentials: true,
+      });
+      if (res.data) {
+        const user = res.data;
+        setSession({
+          user: {
+            id: user.uid,
+            name: user.phone,
+            email: user.phone,
+          },
+        });
+      } else {
+        setSession(null);
+      }
+    } catch (error) {
+      console.log('Error in fetch user---->', error);
+      setSession(null);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.post(
+        '/api/auth/logout',
+        {},
+        { withCredentials: true },
+      );
+      await signOut(auth);
+      setSession(null);
+    } catch (error) {
+      console.error('Logout Error:', error);
+      alert('Error in logging out');
+    }
+  };
+
   const authentication = React.useMemo(() => {
     return {
       signIn: () => {
-        setSession(demoSession);
+        setPhoneAuthOpen(true);
       },
-      signOut: () => {
-        setSession(null);
-      },
+      signOut: handleLogout,
     };
   }, []);
 
@@ -75,6 +119,13 @@ export default function App() {
         theme={definedtheme}
       >
         <Outlet />
+        {isPhoneAuthOpen && (
+          <PhoneAuthModal
+            open={isPhoneAuthOpen}
+            onClose={() => setPhoneAuthOpen(false)}
+          />
+          
+        )}
       </ReactRouterAppProvider>
     </SessionContext.Provider>
   );
