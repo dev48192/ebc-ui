@@ -124,7 +124,6 @@ export default function App() {
             open={isPhoneAuthOpen}
             onClose={() => setPhoneAuthOpen(false)}
           />
-          
         )}
       </ReactRouterAppProvider>
     </SessionContext.Provider>

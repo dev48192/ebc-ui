@@ -148,8 +148,8 @@ export default function PhoneAuthModal({ open, onClose }) {
             </Button>
           </Stack>
         )}
-        <Box sx={{ mt:1, display: 'flex', justifyContent: 'center'}}>
-        <div id="recaptcha-container"></div>
+        <Box sx={{ mt: 1, display: 'flex', justifyContent: 'center' }}>
+          <div id="recaptcha-container"></div>
         </Box>
       </Box>
     </Modal>
