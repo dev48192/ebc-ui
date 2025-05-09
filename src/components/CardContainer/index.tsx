@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  red,
-  blue,
-  green,
-  pink,
-  purple,
-  yellow,
-} from '@mui/material/colors';
+import { red, blue, green, pink, purple, yellow } from '@mui/material/colors';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router';
@@ -29,7 +22,7 @@ const CardContainer: React.FC = () => {
             avatarText="MD"
             title="Material Depo"
             description="Manage material requests and compare supplier quotations."
-            onClick={()=> navigate('/material-depo')}
+            onClick={() => navigate('/material-depo')}
           />
         </Grid>
 
@@ -39,7 +32,7 @@ const CardContainer: React.FC = () => {
             avatarText="TD"
             title="Technical Desk"
             description="Manage technical support needs and follow up on expert inputs or offers."
-            onClick={()=> navigate('/material-depo')}          
+            onClick={() => navigate('/material-depo')}
           />
         </Grid>
         <Grid size={{ xs: cardGrid.xs, md: 2, sm: cardGrid.sm }}>
@@ -48,7 +41,7 @@ const CardContainer: React.FC = () => {
             avatarText="FA"
             title="Fabricator Area"
             description="Manage fabrication tasks and review fabricator proposals."
-            onClick={()=> navigate('/material-depo')}
+            onClick={() => navigate('/material-depo')}
           />
         </Grid>
         <Grid size={{ xs: cardGrid.xs, md: 2, sm: cardGrid.sm }}>
@@ -57,7 +50,7 @@ const CardContainer: React.FC = () => {
             avatarText="MH"
             title="Manpower Hub"
             description="Manage workforce requirements and collaborate with manpower service providers."
-            onClick={()=> navigate('/material-depo')}
+            onClick={() => navigate('/material-depo')}
           />
         </Grid>
         <Grid size={{ xs: cardGrid.xs, md: 2, sm: cardGrid.sm }}>
@@ -66,7 +59,7 @@ const CardContainer: React.FC = () => {
             avatarText="HT"
             title="Hiring Terminal"
             description="Manage posted hiring needs and track recruiter quotes."
-            onClick={()=> navigate('/material-depo')}
+            onClick={() => navigate('/material-depo')}
           />
         </Grid>
         <Grid size={{ xs: cardGrid.xs, md: 2, sm: cardGrid.sm }}>
@@ -75,7 +68,7 @@ const CardContainer: React.FC = () => {
             avatarText="CZ"
             title="Contract Zone"
             description="Manage posted project scopes and view contractor bids."
-            onClick={()=> navigate('/material-depo')}
+            onClick={() => navigate('/material-depo')}
           />
         </Grid>
       </Grid>

@@ -20,42 +20,38 @@ const RoomCard: React.FC<RoomCardProps> = ({
   avatarText,
   title,
   description,
-  onClick = () =>  {},
+  onClick = () => {},
 }) => {
   return (
-        <CardActionArea>
-      <Card sx={{ height: '100%'}} onClick={onClick}>
-          <CardContent>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 1,
-              }}
-            >
-              <Avatar sx={{ bgcolor: avatarColor }} aria-label="recipe">
-                {avatarText}
-              </Avatar>
-              <Typography
-                variant="body1"
-                fontSize={14}
-                sx={{ color: grey[800] }}
-              >
-                {title}
-              </Typography>
-            </Box>
-
-            <Typography
-              variant="body1"
-              fontSize={12}
-              sx={{ color: 'text.secondary', mt: 1 }}
-            >
-              {description}
+    <CardActionArea sx={{ height: '100%' }} onClick={onClick}>
+      <Card sx={{ height: '100%'}}>
+        <CardContent>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
+            <Avatar sx={{ bgcolor: avatarColor }} aria-label="recipe">
+              {avatarText}
+            </Avatar>
+            <Typography variant="body1" fontSize={14} sx={{ color: grey[800] }}>
+              {title}
             </Typography>
-          </CardContent>
+          </Box>
+
+          <Typography
+            variant="body1"
+            fontSize={12}
+            sx={{ color: 'text.secondary', mt: 1 }}
+          >
+            {description}
+          </Typography>
+        </CardContent>
       </Card>
-        </CardActionArea>
+    </CardActionArea>
   );
 };
 

@@ -5,26 +5,26 @@ import {
   Avatar,
   Typography,
   TextField,
-} from "@mui/material";
-import React from "react";
-import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+} from '@mui/material';
+import React from 'react';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 const RequestForm: React.FC = () => {
-  const paperStyle = { padding: "30px 20px", width: 300, margin: "20px auto" };
+  const paperStyle = { padding: '30px 20px', width: 300, margin: '20px auto' };
   const headerStyle = { margin: 3 };
-  const avatarStyle = { backgroundColor: "#1bbd7e" };
-  const [age, setAge] = React.useState("");
+  const avatarStyle = { backgroundColor: '#1bbd7e' };
+  const [age, setAge] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value as string);
   };
   const handleSubmit = () => {
-    console.log("Form submitted");
+    console.log('Form submitted');
   };
 
   return (
