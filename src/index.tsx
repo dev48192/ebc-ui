@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Layout from './components/Layout';
 import MaterialDepo from './pages/MaterialDepo';
 import NotFound from './pages/NotFound';
+import SettingsForm from './pages/Settings';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
           {
             path: '/material-depo',
             Component: MaterialDepo,
+          },
+          {
+            path: '/settings',
+            Component: SettingsForm,
           },
         ],
       },

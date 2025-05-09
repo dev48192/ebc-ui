@@ -21,7 +21,7 @@ const MaterialDepo: React.FC = () => {
         { title: 'Material Depo', path: '/material-depo' },
       ]}
     >
-      <Grid container sx={{ mb: 1}} rowSpacing={2}>
+      <Grid container sx={{ mb: 1 }} rowSpacing={2}>
         <Grid size={{ xs: 12, md: 8 }}>
           <FormControl>
             <OutlinedInput
@@ -36,7 +36,10 @@ const MaterialDepo: React.FC = () => {
             />
           </FormControl>
         </Grid>
-        <Grid size={{ xs: 12, md: 4 }} sx={{ display: 'flex', justifyContent: 'flex-end'}}>
+        <Grid
+          size={{ xs: 12, md: 4 }}
+          sx={{ display: 'flex', justifyContent: 'flex-end' }}
+        >
           <CreateRequest />
         </Grid>
       </Grid>

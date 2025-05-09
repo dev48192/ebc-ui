@@ -28,7 +28,7 @@ const NAVIGATION: Navigation = [
     icon: <GroupIcon />,
   },
   {
-    segment: 'setting',
+    segment: 'settings',
     title: 'Settings',
     icon: <SettingIcon />,
   },
