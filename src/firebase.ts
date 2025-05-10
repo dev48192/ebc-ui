@@ -5,6 +5,8 @@ import {
   onAuthStateChanged,
   signOut,
   signInWithPhoneNumber,
+  setPersistence,
+  browserLocalPersistence,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -21,6 +23,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize auth
 const auth = getAuth(app);
+
+
+setPersistence(auth, browserLocalPersistence);
 
 export {
   auth,
