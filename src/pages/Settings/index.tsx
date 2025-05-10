@@ -20,7 +20,13 @@ const Settings: React.FC = () => {
     useState(false);
   const [isEditBusinessDetailOpen, setEditBusinessDetailsOpen] =
     useState(false);
-  const { authDetails, session = {}, setAppLoading, setAuthDetails, setSession} = useSession();
+  const {
+    authDetails,
+    session = {},
+    setAppLoading,
+    setAuthDetails,
+    setSession,
+  } = useSession();
   const account = session?.user || {};
   const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({});
 
@@ -36,8 +42,10 @@ const Settings: React.FC = () => {
     e.preventDefault();
     setAppLoading(true);
     try {
-      const res = await axiosInstance.put('/api/profile', personalDetails);
-      if(res.data) {
+      const res = await axiosInstance.put('/api/profile', personalDetails, {
+        withCredentials: true,
+      });
+      if (res.data) {
         alert(res.data?.message);
         const user = res.data?.user;
         const name = [user.first_name, user.last_name]
@@ -61,10 +69,10 @@ const Settings: React.FC = () => {
         setEditPersonalDetailsOpen(false);
         console.log('Submitted:', personalDetails);
       }
-      setAppLoading(false)
+      setAppLoading(false);
     } catch (error) {
       console.log('Error in saving details', error);
-      setAppLoading(false)
+      setAppLoading(false);
     }
   };
 
@@ -94,9 +102,7 @@ const Settings: React.FC = () => {
           }}
         >
           <Box sx={{ display: 'flex', gap: 3 }}>
-            <CustomAvatar
-              sx={{ width: 100, height: 100, fontSize: 32 }}
-            />
+            <CustomAvatar sx={{ width: 100, height: 100, fontSize: 32 }} />
             <Box
               sx={{
                 display: 'flex',

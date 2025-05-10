@@ -41,6 +41,6 @@ const CustomAvatar: React.FC<CustomAvatarProps> = ({ sx }) => {
   const { session = {} } = useSession();
   const account = session?.user || {};
   const name = account?.name ?? '';
-  return <Avatar {... name ? stringAvatar(name, sx) : { sx }} />;
+  return <Avatar {...(name ? stringAvatar(name, sx) : { sx })} />;
 };
 export default CustomAvatar;

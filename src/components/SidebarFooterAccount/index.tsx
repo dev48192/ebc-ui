@@ -41,9 +41,7 @@ const createPreviewComponent = (mini: boolean) => {
 };
 
 function SidebarFooterAccountPopover() {
-  const {
-    session ={},
-  } = useSession();
+  const { session = {} } = useSession();
   const account = session?.user || {};
   return (
     <Stack direction="column">

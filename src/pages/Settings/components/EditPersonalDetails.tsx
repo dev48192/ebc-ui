@@ -16,8 +16,8 @@ const EditPersonalDetails: React.FC<EditPersonalDetailsProps> = ({
   onChange,
   personalDetails,
 }) => {
-    const { authDetails } = useSession();
-  
+  const { authDetails } = useSession();
+
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 6, md: 6 }}>
@@ -64,7 +64,7 @@ const EditPersonalDetails: React.FC<EditPersonalDetailsProps> = ({
           value="bottom"
           control={
             <Switch
-              name='is_seller'
+              name="is_seller"
               checked={personalDetails?.is_seller ?? authDetails?.isSeller}
               onChange={onChange}
               color="primary"

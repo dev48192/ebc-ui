@@ -58,7 +58,7 @@ export default function App() {
   );
 
   const fetchUser = async () => {
-    setAppLoading(true)
+    setAppLoading(true);
     try {
       const res = await axiosInstance.get('/api/auth/profile', {
         withCredentials: true,
@@ -94,19 +94,19 @@ export default function App() {
       console.log('Error in fetch user---->', error);
       setSession(null);
       setAuthDetails(null);
-      setAppLoading(false)
+      setAppLoading(false);
     }
   };
 
   React.useEffect(() => {
-    if(hasFetched.current) return;
+    if (hasFetched.current) return;
     hasFetched.current = true;
 
     fetchUser();
   }, []);
 
   const handleLogout = async () => {
-    setAppLoading(true)
+    setAppLoading(true);
     try {
       await axiosInstance.post(
         '/api/auth/logout',
@@ -116,11 +116,11 @@ export default function App() {
       await signOut(auth);
       setSession(null);
       setAuthDetails(null);
-      setAppLoading(false)
+      setAppLoading(false);
     } catch (error) {
       console.error('Logout Error:', error);
       alert('Error in logging out');
-      setAppLoading(false)
+      setAppLoading(false);
     }
   };
 

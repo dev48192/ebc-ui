@@ -28,7 +28,7 @@ const modalStyle = {
 };
 
 export default function PhoneAuthModal({ open, onClose }) {
-  const { setSession, setAuthDetails} = useSession();
+  const { setSession, setAuthDetails } = useSession();
   const [step, setStep] = useState('phone'); // 'phone' | 'otp'
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
@@ -66,10 +66,9 @@ export default function PhoneAuthModal({ open, onClose }) {
     try {
       const result = await confirmationResult.confirm(otp);
       const idToken = await result.user.getIdToken();
-      const res = await axiosInstance.post(
-        '/api/auth/login',
-        { id_token: idToken },
-      );
+      const res = await axiosInstance.post('/api/auth/login', {
+        id_token: idToken,
+      });
       if (res.data) {
         const user = res.data.user;
         const name = [user.first_name, user.last_name]
