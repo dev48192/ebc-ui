@@ -28,7 +28,7 @@ const modalStyle = {
 };
 
 export default function PhoneAuthModal({ open, onClose }) {
-  const { setSession } = useSession();
+  const { setSession, setAuthDetails} = useSession();
   const [step, setStep] = useState('phone'); // 'phone' | 'otp'
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
@@ -71,13 +71,26 @@ export default function PhoneAuthModal({ open, onClose }) {
         { id_token: idToken },
       );
       if (res.data) {
-        const user = res.data;
+        const user = res.data.user;
+        const name = [user.first_name, user.last_name]
+          .filter(Boolean)
+          .join(' ')
+          .trim();
         setSession({
           user: {
             id: user.uid,
-            name: user.phone,
+            name: name ?? user.phone,
             email: user.phone,
           },
+        });
+        setAuthDetails({
+          firstName: user.first_name,
+          lastName: user.last_name,
+          fullName: name,
+          id: user.uid,
+          phone: user.phone,
+          email: user.email,
+          isSeller: user.is_seller,
         });
         alert('Phone verified successfully!');
       }
