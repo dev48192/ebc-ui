@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import { SxProps, Theme } from '@mui/material';
+import { useSession } from '../../app/SessionContext';
 
 function stringToColor(string: string) {
   let hash = 0;
@@ -22,7 +23,7 @@ function stringToColor(string: string) {
   return color;
 }
 
-function stringAvatar(name: string, sx: SxProps<Theme>) {
+function stringAvatar(name: string = '', sx: SxProps<Theme>) {
   return {
     sx: {
       ...sx,
@@ -33,11 +34,13 @@ function stringAvatar(name: string, sx: SxProps<Theme>) {
 }
 
 interface CustomAvatarProps {
-  text: string;
   sx?: SxProps<Theme>;
 }
 
-const CustomAvatar: React.FC<CustomAvatarProps> = ({ text, sx }) => {
-  return <Avatar {...stringAvatar(text, sx)} />;
+const CustomAvatar: React.FC<CustomAvatarProps> = ({ sx }) => {
+  const { session = {} } = useSession();
+  const account = session?.user || {};
+  const name = account?.name ?? '';
+  return <Avatar {... name ? stringAvatar(name, sx) : { sx }} />;
 };
 export default CustomAvatar;

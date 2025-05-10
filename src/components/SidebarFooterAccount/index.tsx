@@ -12,8 +12,8 @@ import Stack from '@mui/material/Stack';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
+import CustomAvatar from '../CustomAvatar';
 import { useSession } from '../../app/SessionContext';
 
 function AccountSidebarPreview(props: AccountPreviewProps & { mini: boolean }) {
@@ -25,6 +25,9 @@ function AccountSidebarPreview(props: AccountPreviewProps & { mini: boolean }) {
         variant={mini ? 'condensed' : 'expanded'}
         handleClick={handleClick}
         open={open}
+        slots={{
+          avatar: CustomAvatar,
+        }}
       />
     </Stack>
   );
@@ -39,8 +42,9 @@ const createPreviewComponent = (mini: boolean) => {
 
 function SidebarFooterAccountPopover() {
   const {
-    session: { user: account },
+    session ={},
   } = useSession();
+  const account = session?.user || {};
   return (
     <Stack direction="column">
       <Typography variant="body2" mx={2} mt={1}>
@@ -55,17 +59,13 @@ function SidebarFooterAccountPopover() {
         }}
       >
         <ListItemIcon>
-          <Avatar
+          <CustomAvatar
             sx={{
               width: 32,
               height: 32,
               fontSize: '0.95rem',
             }}
-            src={account.image ?? ''}
-            alt={account.name ?? ''}
-          >
-            {account.name[0]}
-          </Avatar>
+          />
         </ListItemIcon>
         <ListItemText
           sx={{
@@ -88,7 +88,10 @@ function SidebarFooterAccountPopover() {
   );
 }
 
-export default function SidebarFooterAccount({ mini }: SidebarFooterProps) {
+export default function SidebarFooterAccount({
+  mini,
+  ...rest
+}: SidebarFooterProps) {
   const PreviewComponent = React.useMemo(
     () => createPreviewComponent(mini),
     [mini],

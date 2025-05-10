@@ -11,12 +11,62 @@ import EditBusinessDetails from './components/EditBusinessDetails';
 import ViewBusinessDetails from './components/ViewBusinessDetails';
 import ListItemText from '@mui/material/ListItemText';
 import Chip from '@mui/material/Chip';
+import { useSession } from '../../app/SessionContext';
+import { PersonalDetails } from './types';
+import axiosInstance from '../../common/axiosxhr';
 
 const Settings: React.FC = () => {
   const [isEditPersonalDetailOpen, setEditPersonalDetailsOpen] =
     useState(false);
   const [isEditBusinessDetailOpen, setEditBusinessDetailsOpen] =
     useState(false);
+  const { authDetails, session = {}, setAppLoading, setAuthDetails, setSession} = useSession();
+  const account = session?.user || {};
+  const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({});
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setPersonalDetails((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleSubmitPersonalDetails = async (e) => {
+    e.preventDefault();
+    setAppLoading(true);
+    try {
+      const res = await axiosInstance.put('/api/profile', personalDetails);
+      if(res.data) {
+        alert(res.data?.message);
+        const user = res.data?.user;
+        const name = [user.first_name, user.last_name]
+          .filter(Boolean)
+          .join(' ')
+          .trim();
+        setSession({
+          user: {
+            id: user.uid,
+            name: name ?? account?.name,
+            email: account?.email,
+          },
+        });
+        setAuthDetails({
+          ...authDetails,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          fullName: name,
+          isSeller: user.is_seller,
+        });
+        setEditPersonalDetailsOpen(false);
+        console.log('Submitted:', personalDetails);
+      }
+      setAppLoading(false)
+    } catch (error) {
+      console.log('Error in saving details', error);
+      setAppLoading(false)
+    }
+  };
 
   return (
     <Box sx={{ p: 2, m: '16px auto' }}>
@@ -43,12 +93,17 @@ const Settings: React.FC = () => {
             gap: 2,
           }}
         >
-          <Box sx={{ display: 'flex', gap: 3, }}>
+          <Box sx={{ display: 'flex', gap: 3 }}>
             <CustomAvatar
-              text="Buddhadeb Das"
               sx={{ width: 100, height: 100, fontSize: 32 }}
             />
-            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
               <ListItemText
                 sx={{
                   display: 'flex',
@@ -56,14 +111,20 @@ const Settings: React.FC = () => {
                   alignItems: 'flex-start',
                   width: '100%',
                 }}
-                primary={"Buddhadeb Das"}
-                secondary={"+919134323715"}
-                primaryTypographyProps={{ variant: 'body2', fontSize: 24, }}
+                primary={account?.name}
+                secondary={account?.email}
+                primaryTypographyProps={{ variant: 'body2', fontSize: 24 }}
                 secondaryTypographyProps={{ variant: 'caption' }}
               />
               <Box sx={{ display: 'flex', gap: 1 }}>
-                <Chip sx={{ height: 20, fontSize: 12}} color="warning" label="Seller" />
-                <Chip sx={{ height: 20, fontSize: 12}} color="info" label="Retailer" />
+                {!!authDetails?.isSeller && (
+                  <Chip
+                    sx={{ height: 20, fontSize: 12 }}
+                    color="warning"
+                    label="Seller"
+                  />
+                )}
+                {/* <Chip sx={{ height: 20, fontSize: 12}} color="info" label="Retailer" /> */}
               </Box>
             </Box>
           </Box>
@@ -87,7 +148,7 @@ const Settings: React.FC = () => {
                 </Button>
                 <Button
                   variant="contained"
-                  onClick={() => setEditPersonalDetailsOpen(false)}
+                  onClick={handleSubmitPersonalDetails}
                 >
                   Save
                 </Button>
@@ -106,7 +167,10 @@ const Settings: React.FC = () => {
           </Typography>
 
           {isEditPersonalDetailOpen ? (
-            <EditPersonalDetails />
+            <EditPersonalDetails
+              onChange={handleChange}
+              personalDetails={personalDetails}
+            />
           ) : (
             <ViewPersonalDetails />
           )}
@@ -120,7 +184,7 @@ const Settings: React.FC = () => {
               width: '100%',
             }}
           >
-            {isEditPersonalDetailOpen ? (
+            {isEditBusinessDetailOpen ? (
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button
                   variant="outlined"

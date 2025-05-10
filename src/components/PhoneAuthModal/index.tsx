@@ -69,7 +69,6 @@ export default function PhoneAuthModal({ open, onClose }) {
       const res = await axiosInstance.post(
         '/api/auth/login',
         { id_token: idToken },
-        { withCredentials: true },
       );
       if (res.data) {
         const user = res.data;
