@@ -13,6 +13,7 @@ import axiosInstance from '../common/axiosxhr';
 import { auth, signOut } from '../firebase';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import useFirebaseAuth from './useFirebaseauth';
 
 const NAVIGATION: Navigation = [
   {
@@ -60,9 +61,7 @@ export default function App() {
   const fetchUser = async () => {
     setAppLoading(true);
     try {
-      const res = await axiosInstance.get('/api/auth/profile', {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get('/api/auth/profile');
       if (res.data) {
         const user = res.data;
         const name = [user.first_name, user.last_name]
@@ -111,7 +110,6 @@ export default function App() {
       await axiosInstance.post(
         '/api/auth/logout',
         {},
-        { withCredentials: true },
       );
       await signOut(auth);
       setSession(null);
@@ -132,6 +130,8 @@ export default function App() {
       signOut: handleLogout,
     };
   }, []);
+
+  useFirebaseAuth();
 
   return (
     <SessionContext.Provider value={sessionContextValue}>
